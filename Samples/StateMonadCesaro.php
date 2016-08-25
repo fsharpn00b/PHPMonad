@@ -16,9 +16,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with PHP Monad.  If not, see <http://www.gnu.org/licenses/>. */
 
-/* This is an implementation of the Cesaro method for estimating pi, based on the implementation provided in Structure and Interpretation of Computer Programs (SICP) by Abelson and Sussman.
+/* This is an implementation of the Cesaro method for estimating pi, based on the implementation provided in Structure and
+Interpretation of Computer Programs (SICP) by Abelson and Sussman.
 
-Abelson and Sussman use their Cesaro method implementation to show that we sometimes need mutation to separate management of state (in this case, a random number seed) from the rest of a program. However, they were reckoning without the State monad, which lets us handle state management abstractly.
+Abelson and Sussman use their Cesaro method implementation to show that we sometimes need mutation to separate management of
+state (in this case, a random number seed) from the rest of a program. However, they were reckoning without the State monad,
+which lets us handle state management abstractly.
 
 See:
 SICP (text).
@@ -46,16 +49,22 @@ $result = get_rand (0);
 
 Remarks:
 get_rand () simulates a pure pseudo-random number generator such as you might find in a functional language.
-A pure function (1) has no side effects such as mutation, input or output, and (2) is referentially transparent; that is, when applied to a given value, it always returns the same result.
-A pure function cannot generate a true random number. To do so, (1) it would require input, which is a side effect, and (2) it would not return the same result every time, so it would not be referentially transparent.
+A pure function (1) has no side effects such as mutation, input or output, and (2) is referentially transparent; that is, when
+applied to a given value, it always returns the same result.
+A pure function cannot generate a true random number. To do so, (1) it would require input, which is a side effect, and (2) it
+would not return the same result every time, so it would not be referentially transparent.
 
-mt_rand () seems to use an internal mutable random number seed, which means it is not pure. You can also set this internal random number seed by calling mt_srand (). mt_rand () does seem to be referentially transparent, as it seems to always return the same value when mt_srand () is applied to a given random number seed.
+mt_rand () seems to use an internal mutable random number seed, which means it is not pure. You can also set this internal random
+number seed by calling mt_srand (). mt_rand () does seem to be referentially transparent, as it seems to always return the same
+value when mt_srand () is applied to a given random number seed.
 
 The manual page description for mt_srand () says:
 "Seeds the random number generator with seed or with a random value if no seed is given."
-Assuming mt_srand () generates the "random" seed value with the same algorithm used by mt_rand (), this is only adding a layer of pseudo-randomness.
+Assuming mt_srand () generates the "random" seed value with the same algorithm used by mt_rand (), this is only adding a layer of
+pseudo-randomness.
 
-Our implementation of the Cesaro method starts with a random number seed of 0. Thereafter, it uses the previously generated random number as the seed for the next.
+Our implementation of the Cesaro method starts with a random number seed of 0. Thereafter, it uses the previously generated
+random number as the seed for the next.
 
 For more information see:
 https://programmers.stackexchange.com/questions/202908/how-do-functional-languages-handle-random-numbers
@@ -103,7 +112,8 @@ Returns true if two pseudo-random numbers are both prime numbers.
 
 Example usage:
 $result = cesaro (0);
-// Starting with random number seed 0, the first two pseudo-random numbers returned by make_rand are 963932192, 1631776918, neither of which is a prime number.
+// Starting with random number seed 0, the first two pseudo-random numbers returned by make_rand are 963932192, 1631776918,
+// neither of which is a prime number.
 // $result === false
 
 Remarks:

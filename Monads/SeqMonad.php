@@ -118,8 +118,12 @@ class SeqMonad extends Monad {
         return seq_unit ($value);
     }
 
-/* We want to combine the first and second sequences. The naive way to do this is to evaluate the first sequence to the last node, then set its $next field to the first node of the second sequence. However, we do not want to evaluate the first sequence.
-Instead, we return a node whose $item field is copied from the current node of the first sequence, but whose $next field points to a closure. The closure checks to see if there are any more nodes in the first sequence. If so, it recursively calls combine with the next node in the first sequence, and does not evaluate the second sequence. This recursion continues until we finish evaluating the first sequence. At that point, the closure simply returns the second sequence.
+/* We want to combine the first and second sequences. The naive way to do this is to evaluate the first sequence to the last
+node, then set its $next field to the first node of the second sequence. However, we do not want to evaluate the first sequence.
+Instead, we return a node whose $item field is copied from the current node of the first sequence, but whose $next field points
+to a closure. The closure checks to see if there are any more nodes in the first sequence. If so, it recursively calls combine
+with the next node in the first sequence, and does not evaluate the second sequence. This recursion continues until we finish
+evaluating the first sequence. At that point, the closure simply returns the second sequence.
 See the implementation of combine here:
 http://tryjoinads.org/docs/computations/layered.html
 */
@@ -203,7 +207,8 @@ None.
 */
 function counter (SeqMonad $m, int $start, int $end) : callable {
     $rec = function () use ($m, $start, $end) { return new SeqNodeSome ($start, counter ($m, $start + 1, $end)); };
-    /* Note it is helpful to keep in mind that in the recursive case, Monad->unit2 () is applied to the result of a future call to Monad->combine (). */
+    /* Note it is helpful to keep in mind that in the recursive case, Monad->unit2 () is applied to the result of a future call
+    to Monad->combine (). */
     $code = '
         if ($start > $end) {
             unit2 (get_empty_seq ());
@@ -248,7 +253,8 @@ function seq_iter (callable $f, callable $seq) /* : void */ {
 }
 
 /* seq_take
-Return a new sequence that contains the specified number of items from the input sequence. This is useful for dealing with infinite sequences.
+Return a new sequence that contains the specified number of items from the input sequence. This is useful for dealing with
+infinite sequences.
 
 Example usage:
     function fibonacci (SeqMonad $m, float $a, float $b) {

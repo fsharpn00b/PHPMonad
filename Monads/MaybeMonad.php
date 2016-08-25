@@ -214,7 +214,8 @@ class MaybeMonad extends Monad {
         // $result->value === 3
 
     Remarks:
-    This method is called when the monadic code calls unit () more than once, calls unit2 () more than once, or calls unit () and unit2 () at least once each.
+    This method is called when the monadic code calls unit () more than once, calls unit2 () more than once, or calls unit () and
+    unit2 () at least once each.
     For more information, see the comments for Monad->combine ().
     
     @value1 - The first Maybe value to combine.

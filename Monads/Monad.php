@@ -24,7 +24,8 @@ require_once '../Utils/ArrayUtils.php';
 require_once 'MonadicParser.php';
 
 /* This file implements a monad.
-Generally, a monad abstracts out computations that are not easily expressed in functional languages. For our purposes, a monad helps compose functions that return values of complex types (for example, Maybe).
+Generally, a monad abstracts out computations that are not easily expressed in functional languages. For our purposes, a monad
+helps compose functions that return values of complex types (for example, Maybe).
 For general reference, see:
 https://bartoszmilewski.com/2011/01/09/monads-for-the-curious-programmer-part-1/
 https://fsharpforfunandprofit.com/series/computation-expressions.html
@@ -208,7 +209,8 @@ abstract class Monad /* <type param> */ {
     This function is for internal use only.
 
     Remarks:
-    This method is called when the monadic code calls the globally defined unit () function. In that case, the child class must override this method or it raises an exception.
+    This method is called when the monadic code calls the globally defined unit () function. In that case, the child class must
+    override this method or it raises an exception.
 
     @value - The value to promote to the monadic type.
     @return - The monadic type value.
@@ -241,7 +243,8 @@ abstract class Monad /* <type param> */ {
     This function is for internal use only.
 
     Remarks:
-    This method is called when the monadic code calls the globally defined bind () function. In that case, the child class must override this method or it raises an exception.
+    This method is called when the monadic code calls the globally defined bind () function. In that case, the child class must
+    override this method or it raises an exception.
 
     @result - The input monadic type value whose contents should be bound.
     @rest - A function that represents the remaining monadic code.
@@ -261,7 +264,8 @@ abstract class Monad /* <type param> */ {
     This function is for internal use only.
 
     Remarks:
-    This method is called when the monadic code calls the globally defined monad_do () function. In that case, the child class must override this method or it raises an exception.
+    This method is called when the monadic code calls the globally defined monad_do () function. In that case, the child class
+    must override this method or it raises an exception.
 
     @result - The input monadic type value.
     @rest - A function that represents the remaining monadic code.
@@ -279,7 +283,8 @@ abstract class Monad /* <type param> */ {
     This function is for internal use only.
 
     Remarks:
-    This method is called when the last statement in the the monadic code does not call unit () or unit2 (). In that case, the child class must override this method or it raises an exception.
+    This method is called when the last statement in the the monadic code does not call unit () or unit2 (). In that case, the
+    child class must override this method or it raises an exception.
 
     @return - A monadic type value.
     */
@@ -294,15 +299,19 @@ abstract class Monad /* <type param> */ {
     This function is for internal use only.
 
     Remarks:
-    This method is called when the monadic code calls unit () more than once, calls unit2 () more than once, or calls unit () and unit2 () at least once each. In these cases, the child class must override this method or it raises an exception.
+    This method is called when the monadic code calls unit () more than once, calls unit2 () more than once, or calls unit () and
+    unit2 () at least once each. In these cases, the child class must override this method or it raises an exception.
     
     @value1 - The first monadic type value to combine.
-    @value2 - If the child class implements Monad->delay (), @value2 is the return value of Monad->delay (), which is either a function that represents the rest of the monadic code, or the result of running the rest of the monadic code. If the child class does not implement Monad->delay (), @value2 is the result of running the rest of the monadic code.
+    @value2 - If the child class implements Monad->delay (), @value2 is the return value of Monad->delay (), which is either a
+    function that represents the rest of the monadic code, or the result of running the rest of the monadic code. If the child
+    class does not implement Monad->delay (), @value2 is the result of running the rest of the monadic code.
         If @value2 is a function, its signature is as follows.
         @return - The result of running the rest of the monadic code.
     @return - The combined monadic type value.
     */
-    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
+    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
+    the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
 //    protected function combine (/* type */ $value1, /* type or callable */ $value2) /* : type */ {}
     
     /* Monad->delay
@@ -318,7 +327,8 @@ abstract class Monad /* <type param> */ {
         @return - The result of running the rest of the monadic code.
     @return - Either @f or its return value, depending on whether this function runs @f.
     */
-    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
+    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
+    the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
 //    protected function delay (callable $f) /* : type or callable */ {}
     
     /* Monad->run
@@ -330,12 +340,15 @@ abstract class Monad /* <type param> */ {
     Remarks:
     This method is only called if the child class implements it.
     
-    @f - If the child class implements Monad->delay (), @f is the return value of Monad->delay (), which is either a function that represents the monadic code, or the result of running the monadic code. If the child class does not implement Monad->delay (), @f is the result of running the monadic code.
+    @f - If the child class implements Monad->delay (), @f is the return value of Monad->delay (), which is either a function
+    that represents the monadic code, or the result of running the monadic code. If the child class does not implement
+    Monad->delay (), @f is the result of running the monadic code.
         If @f is a function, its signature is as follows.
         @return - The result of running the monadic code.
     @return - Either @f or its return value, depending on whether @f is a function and whether this function runs @f.
     */
-    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
+    /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
+    the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
 //    protected function run (/* type or callable */ $f) /* : type or callable */ {}
 
     /*
@@ -351,7 +364,8 @@ abstract class Monad /* <type param> */ {
     If the child class implements Monad->run () but not Monad->delay (), the result of Monad->monad_eval () is:
     Monad->run (eval (<monadic code>))
     
-    If the child class implements Monad->delay (), the second parameter to Monad->combine () is the return value of Monad->delay ().
+    If the child class implements Monad->delay (), the second parameter to Monad->combine () is the return value of
+    Monad->delay ().
 
     For example, suppose the child class implements Monad->delay () as follows.
     protected function delay (callable $f) : callable {
@@ -369,7 +383,8 @@ abstract class Monad /* <type param> */ {
                 }));
             }));
         })
-    This allows the implementation of Monad->combine () to skip running the rest of the monadic code if needed, by simply not calling the function that is passed to it as the second parameter.
+    This allows the implementation of Monad->combine () to skip running the rest of the monadic code if needed, by simply not
+    calling the function that is passed to it as the second parameter.
     */
 
     /* Monad->get_result
@@ -458,7 +473,8 @@ abstract class Monad /* <type param> */ {
     @return - The result of running the rest of the monadic code.
     */
     private function unit_helper (/* type */ $value, array $rest, array $context) /* : type */ {
-// TODO2 This function is called by eval_last_statement only for this type check. This type check should be moved to a separate function.
+/* TODO2 This function is called by eval_last_statement only for this type check. This type check should be moved to a separate
+function. */
         if (false === is_obj_type ($value, $this->type)) {
             throw new Exception (sprintf ('Monad->unit () or Monad->unit2 () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
         }
@@ -596,7 +612,9 @@ abstract class Monad /* <type param> */ {
             case 'DoResult':
                 return $this->do_helper ($result->value, $rest, $context);
             default:
-                /* get_class returns false if applied to a value that is not an object. So this exception is raised if either (1) $result is not an object or (2) $result is an object of an unrecognized type. However, this should never happen. */
+                /* get_class returns false if applied to a value that is not an object. So this exception is raised if either
+                (1) $result is not an object or (2) $result is an object of an unrecognized type. However, this should never
+                happen. */
                 throw new Exception (sprintf ('Monad->eval_dispatch () was applied to a statement result of an unrecognized type: %s.', get_type ($result)));
         }
     }

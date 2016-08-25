@@ -101,8 +101,11 @@ Raises an exception if a control construct other than the following is used: if,
     @branch - The input tree branch with the parsing results added.
     @pos - The updated current position in @text.
 */
-/* This approach is not very functional. However, the functional approach would mean converting the text to an array and calling an anonymous function to process every character, which would be costly.
-I prefer to return a wrapper such as Maybe or Either, rather than raise an exception, whenever possible. However, in this case, if we return such a wrapper, it propagates to Monad->monad_eval. As a result, running monadic code for a given monadic type returns a wrapper rather than an instance of the monadic type, which is not how monads work in other languages. */
+/* This approach is not very functional. However, the functional approach would mean converting the text to an array and calling
+an anonymous function to process every character, which would be costly.
+I prefer to return a wrapper such as Maybe or Either, rather than raise an exception, whenever possible. However, in this case,
+if we return such a wrapper, it propagates to Monad->monad_eval. As a result, running monadic code for a given monadic type
+returns a wrapper rather than an instance of the monadic type, which is not how monads work in other languages. */
 function make_tree_helper (Branch $branch, string $text, int $pos) : StdClass {
     $current = '';
     while ($pos < strlen ($text)) {
@@ -185,10 +188,10 @@ function flatten_tree_helper (string $outer_wrapper, string $inner_wrapper, arra
     }
     else {
         /* We need to do the following.
-        1. Evaluate each tree node in relation to the one that follows it. We do this by converting the nodes array into windows of
-        size 2.
-        2. Evaluate every tree node. We do this by adding a null value to the end of the nodes array, so we can detect when we are
-        evaluating the last window.
+        1. Evaluate each tree node in relation to the one that follows it. We do this by converting the nodes array into windows
+        of size 2.
+        2. Evaluate every tree node. We do this by adding a null value to the end of the nodes array, so we can detect when we
+        are evaluating the last window.
         */
         $nodes = ArrayUtils::append ($nodes, null, null);
         $nodes = ArrayUtils::windowed ($nodes, 2);
