@@ -26,23 +26,23 @@ require_once 'Monad.php';
 
 class DelayTraceMonad extends Monad {
 
-    protected function unit (/* int */ $value) : int {
+    public function unit (/* int */ $value) : int {
         echo sprintf ("return %d\n", $value);
         return $value;
     }
 
     /* Note we cannot override the parameter types in inherited functions, but we can override the return value types. */
-    protected function combine (/* int */ $value1, /* int */ $value2) : int {
+    public function combine (/* int */ $value1, /* int */ $value2) : int {
         echo sprintf ("combine: (%d, ?)\n", $value2);
         return $value1 + $value2 ();
     }
     
-    protected function delay (callable $f) /* : callable */ {
+    public function delay (callable $f) /* : callable */ {
         echo "delay\n";
         return $f;
     }
     
-    protected function run (/* int */ $f) : int {
+    public function run (/* int */ $f) : int {
         echo "run\n";
         return $f ();
     }
@@ -54,22 +54,22 @@ class DelayTraceMonad extends Monad {
 
 class NoDelayTraceMonad extends Monad {
 
-    protected function unit (/* int */ $value) : int {
+    public function unit (/* int */ $value) : int {
         echo sprintf ("return %d\n", $value);
         return $value;
     }
 
-    protected function combine (/* int */ $value1, /* int */ $value2) : int {
+    public function combine (/* int */ $value1, /* int */ $value2) : int {
         echo sprintf ("combine: (%d, %d)\n", $value1, $value2);
         return $value1 + $value2;
     }
     
-    protected function delay (callable $f) /* : int */ {
+    public function delay (callable $f) /* : int */ {
         echo "delay\n";
         return $f ();
     }
     
-    protected function run (/* int */ $f) : int {
+    public function run (/* int */ $f) : int {
         echo "run\n";
         return $f;
     }
