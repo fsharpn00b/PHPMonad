@@ -129,7 +129,7 @@ class StateMonad extends Monad {
     @value - The value to promote to the stateful function.
     @return - The stateful function.
     */
-    protected function unit (/* mixed */ $value) : callable {
+    public function unit (/* mixed */ $value) : callable {
         return function (/* mixed */ $state) use ($value) : State {
             return new State ($state, $value);
         };
@@ -161,11 +161,11 @@ class StateMonad extends Monad {
     @return - The result of running the rest of the monadic code.
     */
     /* Note we cannot override the parameter types in inherited functions, but we can override the return value types. */
-    protected function bind (/* callable */ $result, callable $rest) : callable {
+    public function bind (/* callable */ $result, callable $rest) : callable {
         return function (/* mixed */ $state) use ($result, $rest) : State {
             $new_state = $result ($state);
-            $stateful_func = $rest ($new_state->value);
-            return $stateful_func ($new_state->state);
+            $stateful_f = $rest ($new_state->value);
+            return $stateful_f ($new_state->state);
         };
     }
 
@@ -192,11 +192,11 @@ class StateMonad extends Monad {
         @return - The result of running the rest of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    protected function monad_do (/* callable */ $result, callable $rest) : callable {
+    public function monad_do (/* callable */ $result, callable $rest) : callable {
         return function (/* mixed */ $state) use ($result, $rest) : State {
             $new_state = $result ($state);
-            $stateful_func = $rest ();
-            return $stateful_func ($new_state->state);
+            $stateful_f = $rest ();
+            return $stateful_f ($new_state->state);
         };
     }
 
