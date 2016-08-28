@@ -95,7 +95,7 @@ class PauseMonad extends Monad {
     @return - The coroutine.
     */
     /* Note we cannot override the parameter types in inherited functions, but we can override the return value types. */
-    protected function unit (/* mixed */ $value) : callable /* : unit -> PauseStep */ {
+    public function unit (/* mixed */ $value) : callable /* : unit -> PauseStep */ {
 //        echo sprintf ("Evaluating item: %d\n", $value);
         return function () use ($value) { return new PauseStepContinue ($value); };
     }
@@ -124,7 +124,7 @@ class PauseMonad extends Monad {
         @return - The result of running the rest of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    protected function bind (/* callable : unit -> PauseStep */ $result, callable /* : mixed -> callable : unit -> PauseStep */ $rest) : callable /* : unit -> PauseStep */ {
+    public function bind (/* callable : unit -> PauseStep */ $result, callable /* : mixed -> callable : unit -> PauseStep */ $rest) : callable /* : unit -> PauseStep */ {
         return function () use ($result, $rest) {
             $result_ = $result ();
             if (true === is_obj_type ($result_, 'PauseStepContinue')) {
@@ -164,7 +164,7 @@ class PauseMonad extends Monad {
         @return - The result of running the rest of the monadic code.
     @return - The result of running the rest of the monadic code.
     */    
-    protected function monad_do (/* callable : unit -> PauseStep */ $result, callable /* : unit -> callable : unit -> PauseStep */ $rest) : callable /* : unit -> PauseStep */ {
+    public function monad_do (/* callable : unit -> PauseStep */ $result, callable /* : unit -> callable : unit -> PauseStep */ $rest) : callable /* : unit -> PauseStep */ {
         /* No value is bound as a result of this call. $rest simply calls Monad->eval_helper (). See Monad->do_helper (). */
         return $this->bind ($result, $rest);
     }
