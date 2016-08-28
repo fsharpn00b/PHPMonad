@@ -57,8 +57,8 @@ class NoResult extends EvalResult {
 
 /* In this case, the statement in the monadic code called unit (). */
 class UnitResult extends EvalResult {
-    public /* type */ $value;
-    public function __construct (/* type */ $value) {
+    public /* monadic type */ $value;
+    public function __construct (/* monadic type */ $value) {
         $this->unit_called = true;
         $this->value = $value;
     }
@@ -70,8 +70,8 @@ class Unit2Result extends UnitResult {};
 /* In this case, the statement in the monadic code called bind (). */
 class BindResult extends EvalResult {
     public /* string */ $name;
-    public /* type */ $value;
-    public function __construct (string $name, /* type */ $value) {
+    public /* monadic type */ $value;
+    public function __construct (string $name, /* monadic type */ $value) {
         $this->name = $name;
         $this->value = $value;
         $this->bind_called = true;
@@ -80,8 +80,8 @@ class BindResult extends EvalResult {
 
 /* In this case, the statement in the monadic code called monad_do (). */
 class DoResult extends EvalResult {
-    public /* type */ $value;
-    public function __construct (/* type */ $value) {
+    public /* monadic type */ $value;
+    public function __construct (/* monadic type */ $value) {
         $this->do_called = true;
         $this->value = $value;
     }
@@ -135,7 +135,7 @@ None.
 @value - The monadic type value. 
 @return - None.
 */
-function unit2 (/* type */ $value) /* : void */ {
+function unit2 (/* monadic type */ $value) /* : void */ {
     /* See the comments for unit (). */
     global $_eval_result;
     $_eval_result = new Maybe (true, new Unit2Result ($value));
@@ -194,7 +194,7 @@ function monad_do (/* mixed */ $value) /* : void */ {
 }
 
 /* Monad parent class. */
-abstract class Monad /* <type param> */ {
+abstract class Monad /* <monadic type param> */ {
     /* True if the child class implements combine (). */
     private $_is_combine_implemented = false;
     /* True if the child class implements delay (). */
@@ -215,7 +215,7 @@ abstract class Monad /* <type param> */ {
     @value - The value to promote to the monadic type.
     @return - The monadic type value.
     */
-    protected function unit (/* mixed */ $value) /* : type */ {
+    public function unit (/* mixed */ $value) /* : monadic type */ {
         throw new Exception ('Your monad must implement monad->unit () in order for your monadic code to call unit ().');
     }
 
@@ -232,7 +232,7 @@ abstract class Monad /* <type param> */ {
     @value - The monadic type value.
     @return - The monadic type value.
     */
-    protected function unit2 (/* type */ $value) /* : type */ {
+    public function unit2 (/* monadic type */ $value) /* : monadic type */ {
         return $value;
     }
     
@@ -252,7 +252,7 @@ abstract class Monad /* <type param> */ {
         @return - The result of running the rest of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    protected function bind (/* type */ $result, callable $rest) /* : type */ {
+    public function bind (/* monadic type */ $result, callable $rest) /* : monadic type */ {
         throw new Exception ('Your monad must implement Monad->bind () in order for your monadic code to call bind ().');
     }
 
@@ -272,7 +272,7 @@ abstract class Monad /* <type param> */ {
         @return - The result of running the rest of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    protected function monad_do (/* type */ $result, callable $rest) /* : type */ {
+    public function monad_do (/* monadic type */ $result, callable $rest) /* : monadic type */ {
         throw new Exception ('Your monad must implement Monad->monad_do () in order for your monadic code to call monad_do ().');
     }
 
@@ -288,7 +288,7 @@ abstract class Monad /* <type param> */ {
 
     @return - A monadic type value.
     */
-    protected function zero () /* : type */ {
+    public function zero () /* : monadic type */ {
         throw new Exception ('Either (1) the last statement in the monadic code must be either unit () or unit2 (), or (2) your monad must implement Monad->zero ().');
     }
 
@@ -312,7 +312,7 @@ abstract class Monad /* <type param> */ {
     */
     /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
     the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
-//    protected function combine (/* type */ $value1, /* type or callable */ $value2) /* : type */ {}
+//    public function combine (/* monadic type */ $value1, /* monadic type or callable */ $value2) /* : monadic type */ {}
     
     /* Monad->delay
     Delays the running of monadic code.
@@ -329,7 +329,7 @@ abstract class Monad /* <type param> */ {
     */
     /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
     the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
-//    protected function delay (callable $f) /* : type or callable */ {}
+//    public function delay (callable $f) /* : monadic type or callable */ {}
     
     /* Monad->run
     Runs delayed monadic code.
@@ -349,7 +349,7 @@ abstract class Monad /* <type param> */ {
     */
     /* We cannot have a default implementation of this method because we use method_exists to see whether it is implemented in
     the child class. We also do not define it as abstract because we do not want to require the child class to implement it. */
-//    protected function run (/* type or callable */ $f) /* : type or callable */ {}
+//    public function run (/* monadic type or callable */ $f) /* : monadic type or callable */ {}
 
     /*
     If the child class does not implement Monad->delay () or Monad->run (), the result of Monad->monad_eval () is simply:
@@ -368,7 +368,7 @@ abstract class Monad /* <type param> */ {
     Monad->delay ().
 
     For example, suppose the child class implements Monad->delay () as follows.
-    protected function delay (callable $f) : callable {
+    public function delay (callable $f) : callable {
         return $f;
     }
     Suppose the child class runs the following monadic code.
@@ -441,7 +441,7 @@ abstract class Monad /* <type param> */ {
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function unit_helper_2 (/* type */ $value, array $rest, array $context) /* : type */ {
+    private function unit_helper_2 (/* monadic type */ $value, array $rest, array $context) /* : monadic type */ {
         if (false === $this->_is_combine_implemented) {
             throw new Exception ('Either (1) your monadic code must call unit () or unit2 () only once, as the last statement, or (2) your monad must implement Monad->combine ().');
         }
@@ -472,11 +472,11 @@ abstract class Monad /* <type param> */ {
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function unit_helper (/* type */ $value, array $rest, array $context) /* : type */ {
+    private function unit_helper (/* monadic type */ $value, array $rest, array $context) /* : monadic type */ {
 /* TODO2 This function is called by eval_last_statement only for this type check. This type check should be moved to a separate
 function. */
-        if (false === is_obj_type ($value, $this->type)) {
-            throw new Exception (sprintf ('Monad->unit () or Monad->unit2 () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
+        if (false === is_obj_type ($value, $this->monadic_type)) {
+            throw new Exception (sprintf ('Monad->unit () or Monad->unit2 () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->monadic_type, get_type ($value)));
         }
         else {
             if (count ($rest) === 0) {
@@ -503,9 +503,9 @@ function. */
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function bind_helper (string $name, /* mixed */ $value, array $rest, array $context) /* : type */ {
-        if (false === is_obj_type ($value, $this->type)) {
-            throw new Exception (sprintf ('Monad->bind () was applied to a value of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
+    private function bind_helper (string $name, /* mixed */ $value, array $rest, array $context) /* : monadic type */ {
+        if (false === is_obj_type ($value, $this->monadic_type)) {
+            throw new Exception (sprintf ('Monad->bind () was applied to a value of an unrecognized type. Expected type: %s. Actual type: %s.', $this->monadic_type, get_type ($value)));
         }
         else {
             /* Monad->bind extracts the contents of @value and passes the contents as @bound_value to the anonymous function. */
@@ -532,9 +532,9 @@ function. */
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function do_helper (/* mixed */ $value, array $rest, array $context) /* : type */ {
-        if (false === is_obj_type ($value, $this->type)) {
-            throw new Exception (sprintf ('Monad->monad_do () was applied to a value of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
+    private function do_helper (/* mixed */ $value, array $rest, array $context) /* : monadic type */ {
+        if (false === is_obj_type ($value, $this->monadic_type)) {
+            throw new Exception (sprintf ('Monad->monad_do () was applied to a value of an unrecognized type. Expected type: %s. Actual type: %s.', $this->monadic_type, get_type ($value)));
         }
         else {
             return $this->monad_do ($value, function () use ($rest, $context) {
@@ -555,9 +555,9 @@ function. */
     @value - The result returned from Monad->zero ().
     @return - @value.
     */
-    private function zero_helper (/* type */ $value) /* : type */ {
-        if (false === is_obj_type ($value, $this->type)) {
-            throw new Exception (sprintf ('Monad->zero () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
+    private function zero_helper (/* monadic type */ $value) /* : monadic type */ {
+        if (false === is_obj_type ($value, $this->monadic_type)) {
+            throw new Exception (sprintf ('Monad->zero () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->monadic_type, get_type ($value)));
         }
         else {
             return $value;
@@ -576,9 +576,9 @@ function. */
     @value - The result returned from Monad->combine ().
     @return - @value.
     */
-    private function combine_helper (/* type */ $value) /* : type */ {
-        if (false === is_obj_type ($value, $this->type)) {
-            throw new Exception (sprintf ('Monad->combine () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->type, get_type ($value)));
+    private function combine_helper (/* monadic type */ $value) /* : monadic type */ {
+        if (false === is_obj_type ($value, $this->monadic_type)) {
+            throw new Exception (sprintf ('Monad->combine () returned a result of an unrecognized type. Expected type: %s. Actual type: %s.', $this->monadic_type, get_type ($value)));
         }
         else {
             return $value;
@@ -599,7 +599,7 @@ function. */
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function eval_dispatch (EvalResult $result, array $rest, array $context) /* : type */ {
+    private function eval_dispatch (EvalResult $result, array $rest, array $context) /* : monadic type */ {
         switch (get_class ($result)) {
             case 'NoResult':
                 return $this->eval_helper ($rest, $result->context);
@@ -631,7 +631,7 @@ function. */
     @result - The result of evaluating a statement in the monadic code.
     @return - The return value from the handler for @result.
     */
-    private function eval_last_statement (EvalResult $result) /* : type */ {
+    private function eval_last_statement (EvalResult $result) /* : monadic type */ {
         if (true === is_obj_type ($result, 'UnitResult')) {
             return $this->unit_helper ($this->unit ($result->value), array (), array ());
         }
@@ -656,7 +656,7 @@ function. */
     @context - The variables defined in the scope of the monadic code.
     @return - The result of running the rest of the monadic code.
     */
-    private function eval_helper (array $rest, array $context) /* : type */ {
+    private function eval_helper (array $rest, array $context) /* : monadic type */ {
         $code = ArrayUtils::head_value ($rest);
         $rest = array_slice ($rest, 1);
         if (false === $code->is_some) {
@@ -690,7 +690,7 @@ function. */
     @context - The variables defined in the scope of the monadic code.
     @result - The result of running the monadic code.
     */
-    public function monad_eval (string $code, array $context = array ()) /* : type */ {
+    public function monad_eval (string $code, array $context = array ()) /* : monadic type */ {
         $parser = get_parser (outer_wrapper, inner_wrapper);
         $code = $parser ($code);
         $code = eval ($code);
@@ -711,7 +711,7 @@ function. */
         }
     }
     
-    public function __construct (string $type) {
+    public function __construct (string $monadic_type) {
         $this->_is_combine_implemented = method_exists ($this, 'combine');
         $this->_is_delay_implemented = method_exists ($this, 'delay');
         $this->_is_run_implemented = method_exists ($this, 'run');
@@ -719,7 +719,7 @@ function. */
             false === $this->_is_delay_implemented) {
             throw new Exception ("If your monad implements Monad->combine (), it must also implement Monad->delay ().");
         }
-        $this->type = $type;
+        $this->monadic_type = $monadic_type;
     }
 }
 
