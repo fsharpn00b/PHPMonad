@@ -49,7 +49,7 @@ class ArrayMonad extends Monad {
     @value - The value to promote to the array type.
     @return - The array type value.
     */
-    protected function unit (/* mixed */ $value) : array {
+    public function unit (/* mixed */ $value) : array {
         return array ($value);
     }
 
@@ -78,7 +78,7 @@ class ArrayMonad extends Monad {
     array, @return is @result.
     */
     /* Note we cannot override the parameter types in inherited functions, but we can override the return value types. */
-    protected function bind (/* array */ $result, callable $rest) : array {
+    public function bind (/* array */ $result, callable $rest) : array {
         return ArrayUtils::flatten (array_map ($rest, $result));
     }
 
@@ -111,7 +111,7 @@ class ArrayMonad extends Monad {
     @return - If @result is not empty, @return is the result of running the rest of the monadic code. If @result is empty,
     @return is @result.
     */
-    protected function monad_do (/* array */ $result, callable $rest) : array {
+    public function monad_do (/* array */ $result, callable $rest) : array {
         /* The $rest function passed to monad_do takes no parameters, so the contents of $result are ignored. */
         return ArrayUtils::flatten (array_map ($rest, $result));
     }
@@ -132,7 +132,7 @@ class ArrayMonad extends Monad {
 
     @return - An empty array.
     */
-    protected function zero () : array {
+    public function zero () : array {
         return array ();
     }
     
@@ -157,7 +157,7 @@ class ArrayMonad extends Monad {
     @value2 - The second array to combine.
     @return - The combined array.
     */
-    protected function combine (/* array */ $value1, /* array */ $value2) : array {
+    public function combine (/* array */ $value1, /* array */ $value2) : array {
         return array_merge ($value1, $value2);
     }
 
@@ -174,7 +174,7 @@ class ArrayMonad extends Monad {
     @f - The delayed array.
     @return - The array.
     */
-    protected function delay (callable $f) : array {
+    public function delay (callable $f) : array {
         return $f ();
     }
     
