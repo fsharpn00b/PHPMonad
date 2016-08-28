@@ -113,7 +113,7 @@ class SeqMonad extends Monad {
     @value - The input value.
     @return - The sequence.
     */
-    protected function unit (/* mixed */ $value) : callable {
+    public function unit (/* mixed */ $value) : callable {
 //        echo sprintf ("Evaluating item: %d\n", $value);
         return seq_unit ($value);
     }
@@ -152,7 +152,7 @@ http://tryjoinads.org/docs/computations/layered.html
     @value2 - The second sequence.
     @return - The combined sequence.
     */
-    protected function combine (/* callable : unit -> SeqNode */ $value1, /* callable : unit -> SeqNode */ $value2) : callable {
+    public function combine (/* callable : unit -> SeqNode */ $value1, /* callable : unit -> SeqNode */ $value2) : callable {
         return function () use ($value1, $value2) : SeqNode {
             $value1_ = $value1 ();
             if (true === is_obj_type ($value1_, 'SeqNodeSome')) {
@@ -177,7 +177,7 @@ http://tryjoinads.org/docs/computations/layered.html
     @f - The delayed sequence.
     @return - The sequence.
     */
-    protected function delay (callable $f) : callable {
+    public function delay (callable $f) : callable {
         return $f ();
     }
 
