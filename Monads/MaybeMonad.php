@@ -93,7 +93,7 @@ class MaybeMonad extends Monad {
     @value - The value to promote to the Maybe type.
     @return - The Maybe type value.
     */
-    protected function unit (/* mixed */ $value) : Maybe {
+    public function unit (/* mixed */ $value) : Maybe {
         return new Maybe (true, $value);
     }
 
@@ -123,7 +123,7 @@ class MaybeMonad extends Monad {
     @return is @result.
     */
     /* Note we cannot override the parameter types in inherited functions, but we can override the return value types. */
-    protected function bind (/* Maybe */ $result, callable $rest) : Maybe {
+    public function bind (/* Maybe */ $result, callable $rest) : Maybe {
         if (true === $result->is_some) {
             return $rest ($result->value);
         }
@@ -170,7 +170,7 @@ class MaybeMonad extends Monad {
     @return - If @result->value is true, @return is the result of running the rest of the monadic code. If @result->value is
     false, @return is @result.
     */
-    protected function monad_do (/* Maybe */ $result, callable $rest) : Maybe {
+    public function monad_do (/* Maybe */ $result, callable $rest) : Maybe {
         if (true === $result->is_some) {
             return $rest ();
         }
@@ -196,7 +196,7 @@ class MaybeMonad extends Monad {
 
     @return - An empty Maybe value.
     */
-    protected function zero () : Maybe {
+    public function zero () : Maybe {
         return new Maybe (false, null);
     }
     
@@ -222,7 +222,7 @@ class MaybeMonad extends Monad {
     @value2 - The second Maybe value to combine.
     @return - The combined Maybe value.
     */
-    protected function combine (/* Maybe */ $value1, /* Maybe */ $value2) : Maybe {
+    public function combine (/* Maybe */ $value1, /* Maybe */ $value2) : Maybe {
         if (true === $value1->is_some && false === $value2->is_some) {
             return $value1;
         }
@@ -251,7 +251,7 @@ class MaybeMonad extends Monad {
     @f - The delayed Maybe value.
     @return - The Maybe value.
     */
-    protected function delay (callable $f) : Maybe {
+    public function delay (callable $f) : Maybe {
         return $f ();
     }
     
