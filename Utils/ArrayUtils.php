@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with PHP Monad.  If not, see <http://www.gnu.org/licenses/>. */
 
+// TODO2 ArrayUtils::head should be renamed tryHead.
 // TODO3 Add zip_2, which takes multiple arrays and converts them to a single array of cross-sections, similar to multi_reduce.
 // TODO2 Params should be reordered so that array param comes last. This helps with composition.
 
