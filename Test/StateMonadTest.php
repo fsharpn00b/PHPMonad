@@ -61,6 +61,7 @@ class StateMonadTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /* See ../Samples/StateMonadCesaro.php. */
     public function test_class_usage_example () /* : void */ {
 
     }
@@ -74,10 +75,6 @@ class StateMonadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals ($result, new State (2, 1));
     }
     
-    public function test_unit2_usage_example () /* : void */ {
-        
-    }
-
     public function test_bind_usage_example () /* : void */ {
         $m = new StateMonad ();
         $code = '

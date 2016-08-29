@@ -71,7 +71,7 @@ function yield_ ($x) : callable {
 /* A Pause monad, which can be used to create a coroutine.
 
 Example usage:
-
+See ../Samples/Coroutine.php.
 */
 class PauseMonad extends Monad {
     

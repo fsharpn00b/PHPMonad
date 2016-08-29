@@ -69,8 +69,8 @@ function get_state () : callable {
 }
 
 /* set_state
-Takes a new state. Returns a stateful function that takes the current state and returns the new state. This is used to update the
-state while running a series of stateful functions.
+Returns a stateful function that takes the current state and returns a new state. This is used to update the state while running
+a series of stateful functions.
 
 Example usage:
     $m = new StateMonad ();
@@ -107,7 +107,7 @@ function set_state ($state) : callable {
 /* A State monad, which can be used to compose stateful functions.
 
 Example usage:
-See state_monad_monte_cesaro.php.
+See ../Samples/StateMonadCesaro.php.
 */
 class StateMonad extends Monad {
     

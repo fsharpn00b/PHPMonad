@@ -1,4 +1,0 @@
-Issues
-- Haven't implemented monadic for, while, etc.
-- Can't use any {} except if/else if/else
-- Can't declare functions, but you can use globals or pass get_defined_vars () to Monad->monad_eval ()
