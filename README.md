@@ -35,3 +35,10 @@ Known Issues
 scope where the monadic code is evaluated are also visible to the monadic code. Also, you can assign an anonymous function to a
 variable and then make the variable visible to the monadic code by passing the result of get_defined_vars () to
 Monad->monad_eval ().
+
+Thank You
+I wrote PHPMonad using what I learned from the following people. PHPMonad could not exist without them.
+- Scott Wlaschin (https://fsharpforfunandprofit.com/series/computation-expressions.html)
+- Bartosz Milewski (https://bartoszmilewski.com/2011/01/09/monads-for-the-curious-programmer-part-1/)
+- Giulia Costantini and Giuseppe Maggiore (https://www.amazon.com/Friendly-Fun-game-programming-Book-ebook/dp/B005HHYIWC)
+- Tomas Petricek (http://tryjoinads.org/docs/computations/layered.html)
