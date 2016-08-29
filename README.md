@@ -30,7 +30,7 @@ PHPMonad does not yet support the following methods:
 - try/finally
 
 <h3>Known Issues</h3>
-- You cannot use control flow constructs in monadic code except the following: if, else if, and else.
+- You cannot use control flow constructs in monadic code except the following: if, else if, else.
 - You cannot define a function, either named or anonymous, inside monadic code. However, named functions that are visible in the
 scope where the monadic code is evaluated are also visible to the monadic code. Also, you can assign an anonymous function to a
 variable and then make the variable visible to the monadic code by passing the result of get_defined_vars () to
