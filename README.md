@@ -36,7 +36,9 @@ scope where the monadic code is evaluated are also visible to the monadic code. 
 variable and then make the variable visible to the monadic code by passing the result of get_defined_vars () to
 Monad->monad_eval ().
 
-<h3>Thank You</h3>
+<h3>Notes</h3>
+I am am F# developer. I wrote PHPMonad to help with a PHP-based project I am working on.
+Feedback is welcome - please send it to fsharpn00b@gmail.com.
 I wrote PHPMonad using what I learned from the following people. PHPMonad could not exist without them.
 - Scott Wlaschin (https://fsharpforfunandprofit.com/series/computation-expressions.html)
 - Bartosz Milewski (https://bartoszmilewski.com/2011/01/09/monads-for-the-curious-programmer-part-1/)
