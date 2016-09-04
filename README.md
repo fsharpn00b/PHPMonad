@@ -37,9 +37,9 @@ variable and then make the variable visible to the monadic code by passing the r
 Monad->monad_eval ().
 
 <h3>Notes</h3>
-I am am F# developer. I wrote PHPMonad to help with a PHP-based project I am working on.
-Feedback is welcome - please send it to fsharpn00b@gmail.com.
-I wrote PHPMonad using what I learned from the following people. PHPMonad could not exist without them.
+I am am F# developer. I wrote PHPMonad to help with a PHP-based project I am working on.</BR>
+Feedback is welcome - please send it to fsharpn00b@gmail.com.</BR>
+I wrote PHPMonad using what I learned from the following people. PHPMonad could not exist without them.</BR>
 - Scott Wlaschin (https://fsharpforfunandprofit.com/series/computation-expressions.html)
 - Bartosz Milewski (https://bartoszmilewski.com/2011/01/09/monads-for-the-curious-programmer-part-1/)
 - Giulia Costantini and Giuseppe Maggiore (https://www.amazon.com/Friendly-Fun-game-programming-Book-ebook/dp/B005HHYIWC)
